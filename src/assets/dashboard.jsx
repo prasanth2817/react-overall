@@ -2,6 +2,7 @@ import React from "react";
 import Tile from "./tile";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
 function Dashboard({data,setData}){
@@ -12,7 +13,7 @@ function Dashboard({data,setData}){
         icon:"fa-calender"
     },
 {
-    color:"success",
+        color:"success",
         title:"Earnings(Annual)",
         value:"$2,15,000",
         icon:"fa-dollar-sign"
@@ -34,6 +35,7 @@ let handleDelete=(index)=>{
     newArray.splice(index,1);
     setData(newArray);
 }
+let navigate = useNavigate();
     return<>
        <div className="container-fluid">
        <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -77,10 +79,10 @@ let handleDelete=(index)=>{
             <td>{e.username}</td>
             <td>{e.batch}</td>
             <td>
-            <Button variant="primary">Edit</Button>{' '}
+            <Button variant="primary" onClick={()=>navigate(`/edit/${i}`)}>Edit</Button>
             &nbsp;
             &nbsp;
-            <Button variant="warning" onClick={()=>handleDelete(i)}>delete</Button>{' '}
+            <Button variant="warning" onClick={()=>handleDelete(i)}>delete</Button>
             </td>
         </tr>
       })

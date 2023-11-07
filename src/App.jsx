@@ -4,7 +4,7 @@ import Sidebar from './sidebar'
 import Dashboard from './assets/dashboard';
 import Create from './create';
 import Edit from './Edit';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 
 function App() {
   let [data,setData]= useState([
@@ -30,7 +30,8 @@ function App() {
       <Routes>
         <Route path='/dashboard' element={<Dashboard data={data} setData={setData}/>}/>
         <Route path='/create' element={<Create data={data} setData={setData}/>}/>
-        <Route path='/Edit' element={<Edit/>}/>
+        <Route path='/Edit/:id' element={<Edit data={data} setData={setData}/>}/>
+        <Route path='*' element={<Navigate to='/dashboard'/>}/>
       </Routes>
       </BrowserRouter>
       
