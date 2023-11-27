@@ -47,15 +47,25 @@ function Sidebar(){
             <li className="nav-item">
                 <div className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUtilities"
                     aria-expanded="true" aria-controls="collapseUtilities">
-                   <Link to="/dashboard">
+                   <Link to="/nested-components">
                    <i className="fas fa-fw fa-wrench"></i>
-                    <span  style={{color:"white"}}>Utilities</span>
+                    <span  style={{color:"white"}}>Nestedcomponents</span>
                     </Link>
                 </div>
             </li>
 
             {/* <!-- Divider --> */}
             <hr className="sidebar-divider"/>
+            <div className="sidebar-heading">Hooks</div>
+            <li className="nav-item">
+                <div className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                   <Link to="/use-Ref">
+                   <i className="fas fa-fw fa-wrench"></i>
+                    <span  style={{color:"white"}}>UseRef</span>
+                    </Link>
+                </div>
+            </li>
         </ul>
   </>
     )
