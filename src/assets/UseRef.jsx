@@ -59,7 +59,7 @@ function UseRef() {
         else
           ref4.current.focus();
      }}/>
-        <input type='text' ref={ref4}onKeyUp={(e)=>{
+        <input type='text' ref={ref4} onKeyUp={(e)=>{
         if(e.key==='Backspace'||e.key==='Delete'&& e.target.value.length===0)
           ref3.current.focus();
         else

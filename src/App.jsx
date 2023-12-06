@@ -11,6 +11,9 @@ import Receipts from './assets/Nestedcomponents/Receipts';
 import Staffs from './assets/Nestedcomponents/Staffs';
 import Nestedcomponents from './assets/Nestedcomponents';
 import UseRef from './assets/UseRef';
+import UseReducer from './assets/UseReducer';
+import UserContext, { UserDataContext } from './Context/UserContext';
+import DashboardContext from './Context/DashboardContext';
 
 function App() {
   let [data,setData]= useState([
@@ -34,10 +37,22 @@ function App() {
       <BrowserRouter>
       <Sidebar />
       <Routes>
-        <Route path='/dashboard' element={<Dashboard data={data} setData={setData}/>}/>
-        <Route path='/create' element={<Create data={data} setData={setData}/>}/>
-        <Route path='/Edit/:id' element={<Edit data={data} setData={setData}/>}/>
+        <Route path='/dashboard' element={
+        <UserContext>
+          <DashboardContext>
+          <Dashboard/>
+          </DashboardContext>
+        </UserContext>}/>
+        <Route path='/create' element={
+        <UserContext>
+          <Create/>
+        </UserContext>}/>
+        <Route path='/Edit/:id' element={
+        <UserContext>
+          <Edit/>
+        </UserContext>}/>
         <Route path='use-Ref' element={<UseRef/>}/>
+        <Route path='use-Reducer' element={<UseReducer/>}/>
         <Route path='nested-components' element={<Nestedcomponents/>}>
           <Route path='accounts' element={<Accounts/>}/>
           <Route path='products' element={<Products/>}/>

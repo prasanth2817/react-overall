@@ -1,11 +1,15 @@
 import { Formik } from "formik";
 import React, { useState } from "react";
+import { useContext } from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from "react-router-dom";
 import * as Yup from 'yup';
+import { UserDataContext } from "./Context/UserContext";
 
-function Create({data,setData}){
+function Create(){
+  
+let {data,setData}=useContext(UserDataContext)
 
     let Navigate= useNavigate();
 

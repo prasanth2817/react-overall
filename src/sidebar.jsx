@@ -65,6 +65,13 @@ function Sidebar(){
                     <span  style={{color:"white"}}>UseRef</span>
                     </Link>
                 </div>
+                <div className="nav-link collapsed" data-toggle="collapse" data-target="#collapseUtilities"
+                    aria-expanded="true" aria-controls="collapseUtilities">
+                   <Link to="/use-Reducer">
+                   <i className="fas fa-fw fa-wrench"></i>
+                    <span  style={{color:"white"}}>UseReducer</span>
+                    </Link>
+                </div>
             </li>
         </ul>
   </>

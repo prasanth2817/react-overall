@@ -5,10 +5,12 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { Formik } from "formik";
 import * as Yup from 'yup';
+import { useContext } from "react";
+import { UserDataContext } from "./Context/UserContext";
 
-const Edit=({data,setData})=>{
-    let params= useParams();
-    let Navigate= useNavigate();
+const Edit=()=>{
+  let {data,setData}=useContext(UserDataContext)
+    const params= useParams();
 
     // let[name,setName]=useState("")
     // let[email,setEmail]=useState("")
@@ -33,6 +35,16 @@ const Edit=({data,setData})=>{
 //         Navigate('/dashboard')
 //     }
 // },[])
+
+const [initialValues,setIntialvalues]=useState({
+  name:"",
+  email:"",
+  Mobile:"",
+  username:"",
+  batch:""
+})
+let Navigate= useNavigate();
+
 const userSchema= Yup.object().shape({
   name:Yup.string().required('*This field is required'),
   email:Yup.string().email('*Invalid Email').required('*This field is required'),
@@ -41,6 +53,25 @@ const userSchema= Yup.object().shape({
   batch:Yup.string()
   })
 
+  const getData=(index)=>{
+    let newValues={...initialValues}
+    newValues.name= data[index].name
+    newValues.email= data[index].email
+    newValues.Mobile= data[index].Mobile
+    newValues.username= data[index].username
+    newValues.batch= data[index].batch
+    console.log(newValues);
+    setIntialvalues(newValues)
+  }
+  useEffect(()=>{
+        if(Number(params.id)<data.length)
+        {
+         getData(Number(params.id))
+        }
+        else{
+            Navigate('/dashboard')
+        }
+    },[])
 // const handleEdit=()=>{
 //     let newArray=[...data]
 //     newArray.splice(Number(params.id),1,{
@@ -53,6 +84,7 @@ const userSchema= Yup.object().shape({
 //     setData(newArray)
 //     Navigate('/dashboard')
 // }
+
 return(
     <>
     <div className="container-fluid">
@@ -61,18 +93,12 @@ return(
         </div>
 <div className="row">
   <Formik
-  enableReinitialize={true}
-   initialValues={{
-    name:"",
-    email:"",
-    Mobile:"",
-    username:"",
-    batch:""
-  }}
+  initialValues={initialValues}
   validationSchema={userSchema}
+   enableReinitialize= { true }
     onSubmit={(values)=>{
       let newArray=[...data]
-    newArray.push(values)
+    newArray.splice(params.id,1,values)
     setData(newArray)
     Navigate('/dashboard')
     }}

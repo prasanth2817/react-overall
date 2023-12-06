@@ -1,35 +1,19 @@
-import React from "react";
+import React,{useContext} from "react";
 import Tile from "./tile";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { UserDataContext } from "../Context/UserContext";
+import { DashboardDataContext } from "../Context/DashboardContext";
+import UseLogout from "./UseLogout";
 
-function Dashboard({data,setData}){
-    let CardData=[{
-        color:"primary",
-        title:"Earnings(Monthly)",
-        value:"$40,000",
-        icon:"fa-calender"
-    },
-{
-        color:"success",
-        title:"Earnings(Annual)",
-        value:"$2,15,000",
-        icon:"fa-dollar-sign"
-},
-{
-        isProgressBar:true,
-        color:"info",
-        title:"Tasks",
-        value:"50%",
-        icon:"fa-clipboard-list"
-},{
-    color:"warning",
-        title:"Pending Requests",
-        value:"$40,000",
-        icon:"fa-comments"
-}]
+function Dashboard(){
+
+let {CardData}=useContext(DashboardDataContext)
+let {data,setData} = useContext(UserDataContext)
+let logout= UseLogout()
+
 let handleDelete=(index)=>{
    let newArray=[...data];
     newArray.splice(index,1);
@@ -40,8 +24,7 @@ let navigate = useNavigate();
        <div className="container-fluid">
        <div className="d-sm-flex align-items-center justify-content-between mb-4">
                         <h1 className="h3 mb-0 text-gray-800">Dashboard</h1>
-                        <a href="#" className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
-                            <i className="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+                        <Button className="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" onClick={logout}> Log out</Button>
                     </div>
                     <div className="row">
                         {
@@ -55,8 +38,8 @@ let navigate = useNavigate();
                             })
                         }
                     </div>
-                    <div className="row">
-            <Table striped bordered hover>
+      <div className="row">
+      <Table striped bordered hover>
       <thead>
         <tr>
           <th>#</th>
