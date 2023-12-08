@@ -14,52 +14,63 @@ import UseRef from './assets/UseRef';
 import UseReducer from './assets/UseReducer';
 import UserContext, { UserDataContext } from './Context/UserContext';
 import DashboardContext from './Context/DashboardContext';
+import Home from './assets/Home';
+import ProtectedRoute from './Context/ProtectedRoute';
 
 function App() {
-  let [data,setData]= useState([
-    {
-   name:"ajith",
-   email:"abc@gmail.com",
-   Mobile:"9495959595",
-   username:"ajithabc",
-   batch:"b46",
-  },
-  {
-    name:"bala",
-    email:"mrf@gmail.com",
-    Mobile:"9495959596",
-    username:"balaabc",
-    batch:"b46",
-   }])
+  // let [data,setData]= useState([
+  //   {
+  //  name:"ajith",
+  //  email:"abc@gmail.com",
+  //  Mobile:"9495959595",
+  //  username:"ajithabc",
+  //  batch:"b46",
+  // },
+  // {
+  //   name:"bala",
+  //   email:"mrf@gmail.com",
+  //   Mobile:"9495959596",
+  //   username:"balaabc",
+  //   batch:"b46",
+  //  }])
   return(
     <>
     <div id='wrapper'>
       <BrowserRouter>
-      <Sidebar />
       <Routes>
         <Route path='/dashboard' element={
-        <UserContext>
-          <DashboardContext>
-          <Dashboard/>
-          </DashboardContext>
-        </UserContext>}/>
+         <ProtectedRoute>
+         <UserContext>
+           <DashboardContext>
+               <Sidebar/>
+               <Dashboard/>  
+           </DashboardContext>
+         </UserContext>
+     </ProtectedRoute>}/>
+        
         <Route path='/create' element={
+           <ProtectedRoute>
         <UserContext>
-          <Create/>
-        </UserContext>}/>
+          <><Sidebar /><Create/></>
+        </UserContext>
+        </ProtectedRoute>}/>
         <Route path='/Edit/:id' element={
+          <ProtectedRoute>
         <UserContext>
-          <Edit/>
-        </UserContext>}/>
-        <Route path='use-Ref' element={<UseRef/>}/>
-        <Route path='use-Reducer' element={<UseReducer/>}/>
-        <Route path='nested-components' element={<Nestedcomponents/>}>
+          <><Sidebar /><Edit/></>
+        </UserContext>
+      </ProtectedRoute>}/>
+
+        <Route path='use-Ref' element={<ProtectedRoute><><Sidebar /><UseRef/></></ProtectedRoute>}/>
+        <Route path='use-Reducer' element={<ProtectedRoute><><Sidebar /><UseReducer/></></ProtectedRoute>}/>
+        <Route path='nested-components' element={<ProtectedRoute><><Sidebar /><Nestedcomponents/></></ProtectedRoute>}>
           <Route path='accounts' element={<Accounts/>}/>
           <Route path='products' element={<Products/>}/>
           <Route path='receipts' element={<Receipts/>}/>
           <Route path='staffs' element={<Staffs/>}/>
         </Route>
-        <Route path='*' element={<Navigate to='/dashboard'/>}/>
+        <Route path='/' element={<UserContext><Home/></UserContext>}/>
+        <Route path='*' element={<Navigate to='/'/>}/>
       </Routes>
       </BrowserRouter>
       

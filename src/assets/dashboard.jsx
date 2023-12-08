@@ -1,25 +1,55 @@
-import React,{useContext} from "react";
+import React,{useContext,useEffect,useState} from "react";
 import Tile from "./tile";
 import Table from 'react-bootstrap/Table';
 import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
 import { UserDataContext } from "../Context/UserContext";
 import { DashboardDataContext } from "../Context/DashboardContext";
 import UseLogout from "./UseLogout";
+import { toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+import axios from "axios";
 
 function Dashboard(){
 
-let {CardData}=useContext(DashboardDataContext)
-let {data,setData} = useContext(UserDataContext)
-let logout= UseLogout()
+let [data,setData]=useState([]);
+let {CardData}=useContext(DashboardDataContext);
+let {URL_MK} = useContext(UserDataContext);
+let logout= UseLogout();
+let Navigate = useNavigate();
 
-let handleDelete=(index)=>{
+let handleDelete= async(id,index)=>{
    let newArray=[...data];
     newArray.splice(index,1);
     setData(newArray);
+    try {
+      let res= await axios.delete(`${URL_MK}/${id}`)
+      if(res.status===200)
+      {
+        getData()
+      }
+    } catch (error) {
+      toast.error("error occured")
+    }
 }
-let navigate = useNavigate();
+
+const getData= async ()=>{
+  try {
+    let res= await axios.get(URL_MK)
+    if(res.status===200)
+    {
+    toast.success("user data fetched")
+    setData(res.data)
+    }
+  } catch (error) {
+    toast.error("internal server error")
+  }
+}
+useEffect(()=>{
+     getData()
+},[])
+
+
     return<>
        <div className="container-fluid">
        <div className="d-sm-flex align-items-center justify-content-between mb-4">
@@ -62,10 +92,10 @@ let navigate = useNavigate();
             <td>{e.username}</td>
             <td>{e.batch}</td>
             <td>
-            <Button variant="primary" onClick={()=>navigate(`/edit/${i}`)}>Edit</Button>
+            <Button variant="primary" onClick={()=>Navigate(`/edit/${e.id}`)}>Edit</Button>
             &nbsp;
             &nbsp;
-            <Button variant="warning" onClick={()=>handleDelete(i)}>delete</Button>
+            <Button variant="warning" onClick={()=>handleDelete(e.id,i)}>delete</Button>
             </td>
         </tr>
       })
